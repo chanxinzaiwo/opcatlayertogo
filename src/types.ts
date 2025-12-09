@@ -10,8 +10,10 @@ export interface ComparisonPoint {
   opcat: string;
 }
 
-export enum SimulationStep {
-  INITIAL = 'INITIAL',
-  SELECTED = 'SELECTED',
-  COMBINED = 'COMBINED'
-}
+export const SimulationStep = {
+  INITIAL: 'INITIAL',
+  SELECTED: 'SELECTED',
+  COMBINED: 'COMBINED'
+} as const;
+
+export type SimulationStep = (typeof SimulationStep)[keyof typeof SimulationStep];
