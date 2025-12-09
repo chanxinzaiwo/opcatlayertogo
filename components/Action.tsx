@@ -4,7 +4,7 @@ import { Megaphone, Terminal, ArrowRight, Github, Twitter, Zap } from 'lucide-re
 
 const Action: React.FC = () => {
   return (
-    <section className="py-32 bg-white relative overflow-hidden">
+    <section className="py-20 md:py-32 bg-white relative overflow-hidden">
         {/* Background Gradients */}
         <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-orange-100/50 via-white to-white pointer-events-none"></div>
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-orange-400 via-red-500 to-purple-500"></div>
@@ -16,14 +16,13 @@ const Action: React.FC = () => {
                 The Revolution is Loading...
             </div>
 
-            <h2 className="text-5xl md:text-7xl font-black text-stone-900 mb-6 tracking-tight leading-tight">
+            <h2 className="text-4xl md:text-7xl font-black text-stone-900 mb-6 tracking-tight leading-tight">
                 加入 <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-red-600">变革</span>。<br/>
                 您的使命：成为布道者。
             </h2>
 
-            <p className="text-xl text-stone-500 max-w-2xl mx-auto mb-16 leading-relaxed">
-                无需高深技术背景。OP_CAT 不仅仅是代码，它是唤醒 2 万亿美元沉睡资本的钥匙。
-                只要传播声音，你就是在为比特币的未来添砖加瓦。
+            <p className="text-lg md:text-xl text-stone-500 max-w-2xl mx-auto mb-16 leading-relaxed">
+                无需高深技术背景。只要传播声音，你就是在为比特币的未来添砖加瓦。
                 <br/>
                 <strong className="text-stone-800 mt-2 block">现在就行动起来！</strong>
             </p>

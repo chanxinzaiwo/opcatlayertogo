@@ -50,7 +50,7 @@ const Navigation: React.FC<NavigationProps> = ({ scrollToSection }) => {
         {/* CTA Button */}
         <div className="hidden md:block">
            <a 
-            href="https://github.com/sCrypt-Inc/awesome-op-cat" 
+            href="https://t.me/opcat_layer" 
             target="_blank" 
             rel="noreferrer"
             className="px-5 py-2 bg-stone-900 text-white font-bold text-sm rounded-lg hover:bg-stone-700 transition-colors shadow-lg"

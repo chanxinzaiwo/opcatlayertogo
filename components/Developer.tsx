@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Terminal, Code2 } from 'lucide-react';
 
@@ -36,9 +37,9 @@ OP_DROP
 `;
 
   return (
-    <section id="scrypt-dev" className="py-20 bg-blue-50/50">
+    <section id="scrypt-dev" className="pt-10 md:pt-20 pb-10 bg-blue-50/50">
         <div className="max-w-6xl mx-auto px-4">
-            <div className="grid md:grid-cols-2 gap-12 items-center mb-20">
+            <div className="grid md:grid-cols-2 gap-12 items-center mb-10">
                 <div>
                     <div className="flex items-center gap-3 mb-6">
                         <div className="bg-blue-100 text-blue-800 text-xs font-bold px-3 py-1 rounded-full">Official Language</div>

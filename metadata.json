@@ -1,5 +1,5 @@
 {
-  "name": "文档优化版Copy of OP_CAT 原生扩展层演示",
+  "name": "OP_CAT Layer Show",
   "description": "交互式学习平台，向零基础用户介绍比特币 OP_CAT 协议及其 Layer 2 愿景。",
   "requestFramePermissions": [
     "microphone"

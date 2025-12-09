@@ -1,15 +1,14 @@
+
 import React, { useState } from 'react';
 import { User, Layers, ShieldCheck, Search, Briefcase } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, LabelList } from 'recharts';
 
-// --- DATA DEFINITIONS ---
-
 const CHART_DATA = [
-  { name: 'OP_CAT', score: 95, label: '势头强劲', fill: '#EAB308' }, // Yellow-500
-  { name: 'OP_CTV', score: 65, label: '停滞不前', fill: '#78716C' }, // Stone-500
-  { name: 'APO', score: 50, label: '专注 LN', fill: '#57534E' }, // Stone-600
-  { name: 'OP_VAULT', score: 40, label: '小众领域', fill: '#44403C' }, // Stone-700
-  { name: 'LNHANCE', score: 30, label: '过于复杂', fill: '#292524' }, // Stone-800
+  { name: 'OP_CAT', score: 95, label: '势头强劲', fill: '#EAB308' },
+  { name: 'OP_CTV', score: 65, label: '停滞不前', fill: '#78716C' },
+  { name: 'APO', score: 50, label: '专注 LN', fill: '#57534E' },
+  { name: 'OP_VAULT', score: 40, label: '小众领域', fill: '#44403C' },
+  { name: 'LNHANCE', score: 30, label: '过于复杂', fill: '#292524' },
 ];
 
 type ProposalType = 'OP_CAT' | 'OP_CTV' | 'OP_VAULT';
@@ -24,19 +23,19 @@ const ECOSYSTEM_DATA: Record<ProposalType, {
         builders: ['StarkWare', 'Taproot Wizards', 'sCrypt', 'OP_CAT Layer', 'Botanix'],
         explorers: ['Blockstream', 'Citrea', 'Bitlayer', 'Alpen Labs', 'L2IV'],
         observers: ['Lightning Labs', 'Ark', 'Spiral', 'Chaincode'],
-        desc: "生态极度繁荣。不仅有 L2 项目方全力开发，还有 NFT (Quantum Cats) 和 ZK 技术方 (StarkWare) 的强力支持。"
+        desc: "生态极度繁荣。不仅有 L2 项目方全力开发，还有 NFT 和 ZK 技术方的强力支持。"
     },
     'OP_CTV': {
         builders: ['Jeremy Rubin'],
         explorers: ['Nomic', 'Simple Covenants'],
         observers: ['Bitcoin Devs', 'Optech'],
-        desc: "主要由作者个人推动。虽然历史悠久，但缺乏大型商业项目和资本的实际采用。"
+        desc: "主要由作者个人推动，缺乏大型商业项目采用。"
     },
     'OP_VAULT': {
         builders: ['James O\'Beirne'],
         explorers: ['Custody Solutions'],
         observers: ['Cold Storage Firms'],
-        desc: "专注于金库单一场景。虽然技术优雅，但通用性较低，未能吸引通用型 L2 开发者。"
+        desc: "专注于金库单一场景。"
     }
 };
 
@@ -45,19 +44,19 @@ const TEAM_MEMBERS = [
         name: "Dr. Bruce",
         role: "创始人 & CEO",
         avatar: "https://github.com/user-attachments/assets/717703ef-2b37-4ca3-8da1-b589bda84847",
-        bio: ["连续创业者", "前 Meta 研究科学家", "sCrypt & CAT 协议创始人", "7年+ 比特币生态经验", "分布式网络博士"]
+        bio: ["连续创业者", "前 Meta 研究科学家", "sCrypt 创始人", "分布式网络博士"]
     },
     {
         name: "Yiqiang Wang",
         role: "联合创始人 & CTO",
         avatar: "https://github.com/user-attachments/assets/522aa9a8-471a-4891-a733-9d62f9c0a052",
-        bio: ["连续创业者", "sCrypt & CAT 协议联合创始人", "7年+ 比特币生态经验", "前Umeng创始团队", "前 KTJR CTO"]
+        bio: ["sCrypt 联合创始人", "7年+ 比特币生态经验", "前Umeng创始团队"]
     },
     {
         name: "Mate Tokay",
         role: "联合创始人 & CMO",
         avatar: "https://github.com/user-attachments/assets/21afd1ed-cd51-4bc5-9b28-1bb5a9e0e981",
-        bio: ["加密先驱 & 连续创业者", "Bitcoin.com 联合创始人", "12年+ 加密行业经验", "前 Bitcoin.com CEO", "Altcoinist.com 联合创始人"]
+        bio: ["Bitcoin.com 联合创始人", "前 Bitcoin.com CEO", "Altcoinist.com 创始人"]
     }
 ];
 
@@ -84,19 +83,17 @@ const INDIVIDUAL_BACKERS = [
     { name: "Paul Sztorc", role: "LayerTwo Labs", avatar: "https://github.com/user-attachments/assets/278988b9-1041-4453-866a-489bd577fd69" }
 ];
 
-// --- COMPONENTS ---
-
 const TeamMemberCard: React.FC<{ name: string; role: string; bio: string[]; avatar: string }> = ({ name, role, bio, avatar }) => (
-    <div className="bg-stone-900/50 p-8 rounded-none border border-stone-800 hover:border-yellow-500 transition-colors group text-left h-full flex flex-col">
-        <div className="w-24 h-24 bg-stone-800 rounded-full mb-6 border-2 border-stone-700 group-hover:border-yellow-500 flex items-center justify-center text-stone-600 overflow-hidden shadow-xl">
+    <div className="bg-stone-900/50 p-6 md:p-8 rounded-none border border-stone-800 hover:border-yellow-500 transition-colors group text-left h-full flex flex-col">
+        <div className="w-20 h-20 md:w-24 md:h-24 bg-stone-800 rounded-full mb-6 border-2 border-stone-700 group-hover:border-yellow-500 flex items-center justify-center text-stone-600 overflow-hidden shadow-xl self-center md:self-start">
              <img src={avatar} alt={name} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
         </div>
-        <h3 className="text-2xl font-black text-white mb-2 uppercase">{name}</h3>
-        <p className="text-yellow-500 text-xs font-bold uppercase tracking-widest mb-6 border-b border-stone-800 pb-4">{role}</p>
+        <h3 className="text-xl md:text-2xl font-black text-white mb-2 uppercase text-center md:text-left">{name}</h3>
+        <p className="text-yellow-500 text-xs font-bold uppercase tracking-widest mb-6 border-b border-stone-800 pb-4 text-center md:text-left">{role}</p>
         <div className="space-y-3 flex-1">
             {bio.map((item, i) => (
-                <div key={i} className="flex items-start gap-3 text-sm text-stone-400 font-mono leading-tight">
-                    <span className="text-yellow-500 mt-1">›</span>
+                <div key={i} className="flex items-start gap-3 text-xs md:text-sm text-stone-400 font-mono leading-tight">
+                    <span className="text-yellow-500 mt-0.5">›</span>
                     {item}
                 </div>
             ))}
@@ -112,26 +109,26 @@ const SentimentColumn: React.FC<{
     active: boolean; 
     colorClass: string; 
 }> = ({ title, icon, subtitle, items, active, colorClass }) => (
-    <div className={`p-6 rounded-xl border transition-all duration-500 flex flex-col h-full ${active ? `border-${colorClass}-500/50 bg-${colorClass}-900/10 shadow-lg` : 'border-stone-800 bg-stone-900/30 opacity-60 hover:opacity-100'}`}>
-        <div className="flex items-center gap-3 mb-6 pb-4 border-b border-stone-800/50">
-            <div className={`w-10 h-10 rounded-full flex items-center justify-center ${active ? `bg-${colorClass}-500/20 text-${colorClass}-500` : 'bg-stone-800 text-stone-500'}`}>
+    <div className={`p-4 md:p-6 rounded-xl border transition-all duration-500 flex flex-col h-full ${active ? `border-${colorClass}-500/50 bg-${colorClass}-900/10 shadow-lg` : 'border-stone-800 bg-stone-900/30 opacity-60 hover:opacity-100'}`}>
+        <div className="flex items-center gap-3 mb-4 md:mb-6 pb-4 border-b border-stone-800/50">
+            <div className={`w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center ${active ? `bg-${colorClass}-500/20 text-${colorClass}-500` : 'bg-stone-800 text-stone-500'}`}>
                 {icon}
             </div>
             <div>
-                <h3 className={`font-bold uppercase ${active ? 'text-white' : 'text-stone-400'}`}>{title}</h3>
+                <h3 className={`font-bold uppercase text-sm md:text-base ${active ? 'text-white' : 'text-stone-400'}`}>{title}</h3>
                 <p className="text-[10px] text-stone-500 uppercase tracking-widest">{subtitle}</p>
             </div>
         </div>
-        <div className="space-y-3 flex-1">
+        <div className="space-y-2 md:space-y-3 flex-1">
             {items.length > 0 ? (
                 items.map((item, i) => (
-                    <div key={i} className="flex items-center gap-3 bg-black p-3 rounded border border-stone-800 hover:border-stone-600 transition-colors">
-                        <div className={`w-2 h-2 rounded-full ${active ? `bg-${colorClass}-500 animate-pulse` : 'bg-stone-700'}`}></div>
-                        <span className="font-mono text-sm text-stone-300 font-bold">{item}</span>
+                    <div key={i} className="flex items-center gap-2 md:gap-3 bg-black p-2 md:p-3 rounded border border-stone-800 hover:border-stone-600 transition-colors">
+                        <div className={`w-1.5 h-1.5 md:w-2 md:h-2 rounded-full ${active ? `bg-${colorClass}-500 animate-pulse` : 'bg-stone-700'}`}></div>
+                        <span className="font-mono text-xs md:text-sm text-stone-300 font-bold truncate">{item}</span>
                     </div>
                 ))
             ) : (
-                <div className="text-stone-600 text-sm italic py-4 text-center">暂无项目</div>
+                <div className="text-stone-600 text-xs md:text-sm italic py-4 text-center">暂无项目</div>
             )}
         </div>
     </div>
@@ -142,29 +139,19 @@ const Consensus: React.FC = () => {
   const [activeProposal, setActiveProposal] = useState<ProposalType>('OP_CAT');
 
   return (
-    <section id="consensus" className="py-24 bg-black text-white">
-        <div className="max-w-7xl mx-auto px-6">
+    <section id="consensus" className="py-16 md:py-24 bg-black text-white">
+        <div className="max-w-7xl mx-auto px-4 md:px-6">
             
             {/* 1. TEAM SECTION */}
-            <div className="mb-32">
-                <div className="flex flex-col md:flex-row justify-between items-end mb-16 border-b border-stone-800 pb-8">
-                    <div>
-                        <h2 className="text-5xl md:text-7xl font-black text-white uppercase mb-2">核心团队</h2>
-                        <p className="text-stone-500 font-mono text-lg">协议背后的构建者。</p>
-                    </div>
-                    <div className="flex gap-8 mt-8 md:mt-0">
-                        <div className="text-right">
-                            <div className="text-4xl font-black text-yellow-500">3 x</div>
-                            <div className="text-xs font-bold text-stone-400 uppercase tracking-widest">成功退出</div>
-                        </div>
-                        <div className="text-right">
-                            <div className="text-4xl font-black text-yellow-500">$20M+</div>
-                            <div className="text-xs font-bold text-stone-400 uppercase tracking-widest">融资总额</div>
-                        </div>
+            <div className="mb-24 md:mb-32">
+                <div className="flex flex-col md:flex-row justify-between items-end mb-12 md:mb-16 border-b border-stone-800 pb-8 gap-8">
+                    <div className="w-full md:w-auto text-center md:text-left">
+                        <h2 className="text-4xl md:text-7xl font-black text-white uppercase mb-2">核心团队</h2>
+                        <p className="text-stone-500 font-mono text-base md:text-lg">协议背后的构建者。</p>
                     </div>
                 </div>
 
-                <div className="grid md:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                     {TEAM_MEMBERS.map((member, i) => (
                         <TeamMemberCard key={i} {...member} />
                     ))}
@@ -172,18 +159,18 @@ const Consensus: React.FC = () => {
             </div>
 
             {/* 2. BACKERS SECTION */}
-            <div className="mb-32">
-                <div className="text-center mb-16">
-                    <h2 className="text-4xl font-black text-white uppercase mb-4">
+            <div className="mb-24 md:mb-32">
+                <div className="text-center mb-12 md:mb-16">
+                    <h2 className="text-3xl md:text-4xl font-black text-white uppercase mb-4">
                         当前 OP_CAT 支持者
                     </h2>
                     <div className="h-1 w-16 bg-yellow-500 mx-auto"></div>
                 </div>
                 
-                {/* Organization Logos */}
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-24">
+                {/* Organization Logos - Grid 2 on mobile */}
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16 md:mb-24">
                     {ORGANIZATION_BACKERS.map((backer, i) => (
-                        <div key={i} className={`h-32 rounded-xl flex items-center justify-center border border-stone-800 hover:border-yellow-500 transition-all p-6 grayscale hover:grayscale-0 group ${backer.bg === 'bg-white' ? 'bg-white' : 'bg-stone-900'}`}>
+                        <div key={i} className={`h-24 md:h-32 rounded-xl flex items-center justify-center border border-stone-800 hover:border-yellow-500 transition-all p-4 md:p-6 grayscale hover:grayscale-0 group ${backer.bg === 'bg-white' ? 'bg-white' : 'bg-stone-900'}`}>
                             <img 
                                 src={backer.logo} 
                                 alt={backer.name} 
@@ -193,22 +180,21 @@ const Consensus: React.FC = () => {
                                     e.currentTarget.nextElementSibling?.classList.remove('hidden');
                                 }}
                             />
-                            <span className="hidden text-lg font-bold text-stone-500">{backer.name || backer.fallbackText}</span>
+                            <span className="hidden text-base md:text-lg font-bold text-stone-500">{backer.name || backer.fallbackText}</span>
                         </div>
                     ))}
                 </div>
 
-                {/* Individual Backers - REFACTORED FOR BETTER LAYOUT */}
-                <div className="border-t border-stone-800 pt-20">
+                {/* Individual Backers */}
+                <div className="border-t border-stone-800 pt-16 md:pt-20">
                     <div className="text-center mb-12">
                         <h3 className="text-2xl font-bold text-white uppercase tracking-widest mb-2">个人支持者</h3>
-                        <p className="text-stone-500 text-sm">Industry Leaders & Core Developers</p>
                     </div>
                     
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
                         {INDIVIDUAL_BACKERS.map((person, i) => (
-                            <div key={i} className="bg-stone-900/40 border border-stone-800 hover:border-yellow-500/50 rounded-xl p-8 flex flex-col items-center gap-4 transition-all hover:bg-stone-800 group hover:-translate-y-1 shadow-lg">
-                                <div className="w-24 h-24 bg-stone-800 rounded-full border-4 border-stone-700 group-hover:border-yellow-500 flex items-center justify-center text-stone-500 overflow-hidden shrink-0 shadow-xl transition-colors">
+                            <div key={i} className="bg-stone-900/40 border border-stone-800 hover:border-yellow-500/50 rounded-xl p-6 md:p-8 flex flex-col items-center gap-4 transition-all hover:bg-stone-800 group hover:-translate-y-1 shadow-lg">
+                                <div className="w-20 h-20 md:w-24 md:h-24 bg-stone-800 rounded-full border-4 border-stone-700 group-hover:border-yellow-500 flex items-center justify-center text-stone-500 overflow-hidden shrink-0 shadow-xl transition-colors">
                                     <img 
                                         src={person.avatar} 
                                         alt={person.name}
@@ -220,9 +206,9 @@ const Consensus: React.FC = () => {
                                     />
                                 </div>
                                 <div className="text-center">
-                                    <div className="text-lg font-black text-white group-hover:text-yellow-400 transition-colors uppercase tracking-tight">{person.name}</div>
-                                    <div className="text-xs text-stone-500 flex items-center justify-center gap-1 mt-2 font-mono bg-stone-950/50 px-3 py-1 rounded-full border border-stone-800">
-                                        <Briefcase size={20} />
+                                    <div className="text-base md:text-lg font-black text-white group-hover:text-yellow-400 transition-colors uppercase tracking-tight">{person.name}</div>
+                                    <div className="text-[10px] md:text-xs text-stone-500 flex items-center justify-center gap-1 mt-2 font-mono bg-stone-950/50 px-3 py-1 rounded-full border border-stone-800">
+                                        <Briefcase size={14} />
                                         {person.role}
                                     </div>
                                 </div>
@@ -233,24 +219,21 @@ const Consensus: React.FC = () => {
             </div>
 
             {/* 3. ECOSYSTEM SENTIMENT SPECTRUM */}
-            <div className="mb-32">
-                <div className="text-center mb-16">
-                    <h2 className="text-4xl font-black text-white uppercase mb-4">
+            <div className="mb-24 md:mb-32">
+                <div className="text-center mb-12 md:mb-16">
+                    <h2 className="text-3xl md:text-4xl font-black text-white uppercase mb-4">
                         生态势力图谱
                     </h2>
                     <div className="h-1 w-16 bg-yellow-500 mx-auto"></div>
-                    <p className="text-stone-500 mt-4 max-w-2xl mx-auto">
-                        不同提案的生态支持度对比。点击切换查看真实差距。
-                    </p>
                 </div>
 
                 {/* Switcher */}
-                <div className="flex justify-center gap-4 mb-12">
+                <div className="flex flex-wrap justify-center gap-2 md:gap-4 mb-8 md:mb-12">
                     {(['OP_CAT', 'OP_CTV', 'OP_VAULT'] as ProposalType[]).map(prop => (
                         <button
                             key={prop}
                             onClick={() => setActiveProposal(prop)}
-                            className={`px-6 py-2 rounded-full font-bold text-sm transition-all border ${
+                            className={`px-4 md:px-6 py-2 rounded-full font-bold text-xs md:text-sm transition-all border ${
                                 activeProposal === prop 
                                     ? 'bg-yellow-500 text-black border-yellow-500 shadow-[0_0_20px_rgba(234,179,8,0.4)]' 
                                     : 'bg-stone-900 text-stone-500 border-stone-800 hover:border-stone-600'
@@ -261,79 +244,71 @@ const Consensus: React.FC = () => {
                     ))}
                 </div>
 
-                {/* The Spectrum Grid */}
-                <div className="grid md:grid-cols-3 gap-6 relative">
+                {/* The Spectrum Grid - Stacked on Mobile */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 relative">
                     <SentimentColumn 
-                        title="构建者 (Builders)"
-                        subtitle="全力投入开发"
+                        title="构建者"
+                        subtitle="全力投入"
                         icon={<Layers size={20} />}
                         items={ECOSYSTEM_DATA[activeProposal].builders}
                         active={activeProposal === 'OP_CAT'}
                         colorClass="green"
                     />
                     <SentimentColumn 
-                        title="探索者 (Explorers)"
-                        subtitle="积极评估中"
+                        title="探索者"
+                        subtitle="评估中"
                         icon={<Search size={20} />}
                         items={ECOSYSTEM_DATA[activeProposal].explorers}
                         active={activeProposal === 'OP_CAT'}
                         colorClass="yellow"
                     />
                     <SentimentColumn 
-                        title="观察者 (Observers)"
-                        subtitle="中立/观望"
+                        title="观察者"
+                        subtitle="观望"
                         icon={<ShieldCheck size={20} />}
                         items={ECOSYSTEM_DATA[activeProposal].observers}
-                        active={activeProposal === 'OP_CAT'} // Observers are always somewhat active/relevant
+                        active={activeProposal === 'OP_CAT'} 
                         colorClass="stone"
                     />
-                </div>
-
-                <div className="mt-8 text-center bg-stone-900/50 border border-stone-800 p-4 rounded-lg text-sm text-stone-400">
-                    <span className="text-yellow-500 font-bold mr-2">💡 分析:</span>
-                    {ECOSYSTEM_DATA[activeProposal].desc}
                 </div>
             </div>
 
             {/* 4. CHART SECTION */}
-            <div className="grid md:grid-cols-2 gap-12 items-center bg-stone-900/50 p-8 rounded-3xl border border-stone-800">
+            <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center bg-stone-900/50 p-6 md:p-8 rounded-3xl border border-stone-800">
                 <div>
-                    <h3 className="text-3xl font-black text-white uppercase mb-4">
+                    <h3 className="text-2xl md:text-3xl font-black text-white uppercase mb-4">
                         Wiki 统计数据
                     </h3>
-                    <p className="text-stone-400 leading-relaxed mb-6">
-                        根据 <a href="https://en.bitcoin.it/wiki/Covenants_support" target="_blank" rel="noreferrer" className="text-yellow-500 hover:underline">Bitcoin Wiki</a> 的 "Covenants Support" 矩阵统计，OP_CAT 拥有最广泛的行业共识。
-                    </p>
-                    <p className="text-stone-400 leading-relaxed text-sm">
-                        其简单的设计（仅恢复 10 行代码）和强大的功能（图灵完备、自省）使其在与 OP_CTV、APO 等提案的竞争中脱颖而出，获得了包括 StarkWare、Blockstream 等重量级机构的支持。
+                    <p className="text-stone-400 leading-relaxed mb-6 text-sm md:text-base">
+                        OP_CAT 拥有最广泛的行业共识。
                     </p>
                 </div>
                 
-                <div className="h-[300px] w-full">
+                <div className="h-[250px] md:h-[300px] w-full">
                     <ResponsiveContainer width="100%" height="100%">
                         <BarChart
                             data={CHART_DATA}
                             layout="vertical"
-                            margin={{ top: 5, right: 30, left: 40, bottom: 5 }}
+                            margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
                         >
                             <XAxis type="number" hide />
                             <YAxis 
                                 dataKey="name" 
                                 type="category" 
-                                width={80}
-                                tick={{fill: '#A8A29E', fontSize: 12, fontWeight: 700}} 
+                                width={70}
+                                tick={{fill: '#A8A29E', fontSize: 10, fontWeight: 700}} 
                                 axisLine={false}
                                 tickLine={false}
                             />
                             <Tooltip 
                                 cursor={{fill: 'rgba(255,255,255,0.05)'}}
-                                contentStyle={{ backgroundColor: '#1C1917', borderColor: '#44403C', color: '#fff' }}
+                                contentStyle={{ backgroundColor: '#1C1917', borderColor: '#44403C', color: '#fff', fontSize: '12px' }}
                             />
-                            <Bar dataKey="score" radius={[0, 4, 4, 0]} barSize={32}>
+                            <Bar dataKey="score" radius={[0, 4, 4, 0]} barSize={24}>
                                 {CHART_DATA.map((entry, index) => (
                                     <Cell key={`cell-${index}`} fill={entry.fill} />
                                 ))}
-                                <LabelList dataKey="label" position="right" fill="#fff" fontSize={12} fontWeight="bold" />
+                                <LabelList dataKey="label" position="right" fill="#fff" fontSize={10} fontWeight="bold" />
                             </Bar>
                         </BarChart>
                     </ResponsiveContainer>
