@@ -254,10 +254,10 @@ const UseCases: React.FC = () => {
 
             <div className="bg-stone-900 rounded-lg p-4 font-mono text-[10px] md:text-xs text-stone-400 mb-6 min-h-[60px] md:min-h-[80px]">
                 {merkleStep === 0 && <span className="animate-pulse">Waiting for proof...</span>}
-                {merkleStep >= 1 && <div className="text-blue-400">> Generating ZK-Proof...</div>}
-                {merkleStep >= 2 && <div className="text-yellow-400">> Broadcasting OP_CAT payload...</div>}
-                {merkleStep >= 3 && <div className="text-purple-400">> Verifying on Bitcoin L1...</div>}
-                {merkleStep === 4 && <div className="text-green-400 font-bold">> VERIFIED: State Root Updated.</div>}
+                {merkleStep >= 1 && <div className="text-blue-400">&gt Generating ZK-Proof...</div>}
+                {merkleStep >= 2 && <div className="text-yellow-400">&gt Broadcasting OP_CAT payload...</div>}
+                {merkleStep >= 3 && <div className="text-purple-400">&gt Verifying on Bitcoin L1...</div>}
+                {merkleStep === 4 && <div className="text-green-400 font-bold">&gt VERIFIED: State Root Updated.</div>}
             </div>
 
             <button 
