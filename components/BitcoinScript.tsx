@@ -1,106 +1,131 @@
 
 import React, { useState } from 'react';
 import { Play, RotateCcw, CheckCircle, Key, Lock, Fingerprint, FileSignature, Copy, Hash, ShieldCheck, ArrowDown, Calculator, MousePointerClick, Layers } from 'lucide-react';
+import { useLanguage } from '../contexts/LanguageContext';
 
 const BitcoinScript: React.FC = () => {
-  // --- PART 1 STATE ---
+  const { language } = useLanguage();
   const [stack1, setStack1] = useState<number[]>([]);
   const [step1, setStep1] = useState(0);
 
-  const script1 = [
-    { 
-      op: 'OP_2', 
-      desc: '操作：将数值 2 压入堆栈', 
-      detail: '堆栈就像一个盘子架，我们将数字 2 放在最下面。',
-      action: (_s: number[]) => 2, 
-      type: 'push' 
+  const content = {
+    zh: {
+      part1: {
+        tag: "Part 1: 基础原理",
+        title: "堆栈 (Stack) 思维",
+        desc: "比特币脚本没有循环，没有变量名。它是一种基于堆栈、后进先出 (LIFO) 的语言。就像叠盘子：你只能操作最上面的数据。",
+        exampleLabel: "示例脚本：2 + 3 = 5 ?",
+        steps: {
+          op2: { desc: '操作：将数值 2 压入堆栈', detail: '堆栈就像一个盘子架，我们将数字 2 放在最下面。' },
+          op3: { desc: '操作：将数值 3 压入堆栈', detail: '将数字 3 放在 2 的上面。现在栈顶是 3。' },
+          opAdd: { desc: '操作：弹出栈顶两个数相加', detail: '取出 3 和 2，计算 3+2=5，然后把 5 放回堆栈。' },
+          op5: { desc: '操作：将数值 5 压入堆栈', detail: '为了验证结果，我们将期望值 5 也放入堆栈。' },
+          opEqual: { desc: '操作：验证结果是否相等', detail: '取出计算结果 5 和期望值 5，对比它们。相等则返回 TRUE (1)。' }
+        },
+        controls: {
+          current: "当前步骤",
+          success: "脚本执行完毕，验证成功。",
+          stackEmpty: "Stack Empty",
+          trueVal: "TRUE (1)",
+          reset: "重置",
+          complete: "完成",
+          execute: "执行指令"
+        }
+      },
+      part2: {
+        tag: "Part 2: UTXO 转账验证",
+        title: "P2PKH 交易脚本",
+        desc: "当你在比特币网络转账时，矿工实际上是在执行两段拼在一起的代码。",
+        steps: {
+          sig: { desc: '1. 入栈：解锁签名', detail: '这是发送方提供的数字签名。它证明了拥有者同意动用这笔资金。' },
+          pubkey: { desc: '2. 入栈：用户公钥', detail: '发送方的原始公钥。用于生成哈希（验证地址）和验证签名（验证身份）。' },
+          dup: { desc: '3. 操作：复制栈顶', detail: '复制栈顶的公钥。一次用于地址验证，一次用于签名验证。' },
+          hash: { desc: '4. 操作：计算哈希', detail: '对栈顶公钥进行哈希运算，生成比特币地址。' },
+          pkh: { desc: '5. 入栈：目标哈希', detail: '从锁定脚本中取出目标地址哈希。这是资金锁上的“锁孔”。' },
+          equal: { desc: '6. 验证：地址匹配', detail: '对比两个哈希值。相等说明地址匹配。' },
+          sigCheck: { desc: '7. 验证：签名', detail: '利用公钥解密签名，验证身份。通过则返回 TRUE。' }
+        },
+        controls: {
+          waiting: "等待验证...",
+          reset: "重置",
+          packaged: "已打包",
+          next: "下一步",
+          valid: "交易合法，允许花费。"
+        }
+      }
     },
-    { 
-      op: 'OP_3', 
-      desc: '操作：将数值 3 压入堆栈', 
-      detail: '将数字 3 放在 2 的上面。现在栈顶是 3。',
-      action: (_s: number[]) => 3, 
-      type: 'push' 
-    },
-    { 
-      op: 'OP_ADD', 
-      desc: '操作：弹出栈顶两个数相加', 
-      detail: '取出 3 和 2，计算 3+2=5，然后把 5 放回堆栈。',
-      action: (s: number[]) => { const a = s.pop(); const b = s.pop(); return (a || 0) + (b || 0); }, 
-      type: 'calc' 
-    },
-    { 
-      op: 'OP_5', 
-      desc: '操作：将数值 5 压入堆栈', 
-      detail: '为了验证结果，我们将期望值 5 也放入堆栈。',
-      action: (_s: number[]) => 5, 
-      type: 'push' 
-    },
-    { 
-      op: 'OP_EQUAL', 
-      desc: '操作：验证结果是否相等', 
-      detail: '取出计算结果 5 和期望值 5，对比它们。相等则返回 TRUE (1)。',
-      action: (s: number[]) => { const a = s.pop(); const b = s.pop(); return a === b ? 1 : 0; }, 
-      type: 'calc' 
+    en: {
+      part1: {
+        tag: "Part 1: Basic Principles",
+        title: "Stack Thinking",
+        desc: "Bitcoin script has no loops or variable names. It is a stack-based, LIFO (Last In, First Out) language. Like stacking plates: you can only manipulate the data on top.",
+        exampleLabel: "Example: 2 + 3 = 5 ?",
+        steps: {
+          op2: { desc: 'OP: Push 2 to Stack', detail: 'The stack is like a plate holder. We put number 2 at the bottom.' },
+          op3: { desc: 'OP: Push 3 to Stack', detail: 'Place number 3 on top of 2. Top of stack is now 3.' },
+          opAdd: { desc: 'OP: Pop & Add', detail: 'Pop 3 and 2, calculate 3+2=5, then push 5 back to stack.' },
+          op5: { desc: 'OP: Push 5 to Stack', detail: 'To verify result, we push expected value 5 to stack.' },
+          opEqual: { desc: 'OP: Check Equality', detail: 'Pop result 5 and expected 5. Compare them. If equal, return TRUE (1).' }
+        },
+        controls: {
+          current: "Current Step",
+          success: "Execution Complete. Verification Successful.",
+          stackEmpty: "Stack Empty",
+          trueVal: "TRUE (1)",
+          reset: "Reset",
+          complete: "Done",
+          execute: "Execute"
+        }
+      },
+      part2: {
+        tag: "Part 2: UTXO Verification",
+        title: "P2PKH Transaction Script",
+        desc: "When transferring Bitcoin, miners are actually executing two concatenated pieces of code.",
+        steps: {
+          sig: { desc: '1. Push: Signature', detail: 'Digital signature from sender. Proves owner authorizes funds movement.' },
+          pubkey: { desc: '2. Push: PubKey', detail: 'Sender\'s raw public key. Used for address generation and signature verification.' },
+          dup: { desc: '3. OP: Duplicate', detail: 'Duplicate top PubKey. One for address check, one for signature check.' },
+          hash: { desc: '4. OP: Hash160', detail: 'Hash the top PubKey to generate Bitcoin address.' },
+          pkh: { desc: '5. Push: Target Hash', detail: 'Get target hash from Locking Script. This is the "keyhole" on the funds.' },
+          equal: { desc: '6. Check: Address Match', detail: 'Compare hashes. Equality means address matches.' },
+          sigCheck: { desc: '7. Check: Signature', detail: 'Verify identity using PubKey and Signature. Returns TRUE if valid.' }
+        },
+        controls: {
+          waiting: "Waiting...",
+          reset: "Reset",
+          packaged: "Packaged",
+          next: "Next",
+          valid: "Transaction Valid. Spending Authorized."
+        }
+      }
     }
+  };
+
+  const t = content[language];
+
+  // Dynamic script definitions based on language
+  const script1 = [
+    { op: 'OP_2', ...t.part1.steps.op2, action: (_s: number[]) => 2, type: 'push' },
+    { op: 'OP_3', ...t.part1.steps.op3, action: (_s: number[]) => 3, type: 'push' },
+    { op: 'OP_ADD', ...t.part1.steps.opAdd, action: (s: number[]) => { const a = s.pop(); const b = s.pop(); return (a || 0) + (b || 0); }, type: 'calc' },
+    { op: 'OP_5', ...t.part1.steps.op5, action: (_s: number[]) => 5, type: 'push' },
+    { op: 'OP_EQUAL', ...t.part1.steps.opEqual, action: (s: number[]) => { const a = s.pop(); const b = s.pop(); return a === b ? 1 : 0; }, type: 'calc' }
+  ];
+
+  const script2 = [
+    { op: '<Sig>', icon: <FileSignature size={14}/>, action: (s: string[]) => { s.push('Sig_Alice'); }, ...t.part2.steps.sig },
+    { op: '<PubKey>', icon: <Key size={14}/>, action: (s: string[]) => { s.push('Pub_Alice'); }, ...t.part2.steps.pubkey },
+    { op: 'OP_DUP', icon: <Copy size={14}/>, action: (s: string[]) => { const top = s[s.length-1]; s.push(top); }, ...t.part2.steps.dup },
+    { op: 'OP_HASH160', icon: <Hash size={14}/>, action: (s: string[]) => { s.pop(); s.push('Hash(Pub)'); }, ...t.part2.steps.hash },
+    { op: '<PKH>', icon: <Lock size={14}/>, action: (s: string[]) => { s.push('Hash(Pub)'); }, ...t.part2.steps.pkh }, 
+    { op: 'OP_EQUAL', icon: <Fingerprint size={14}/>, action: (s: string[]) => { s.pop(); s.pop(); }, ...t.part2.steps.equal },
+    { op: 'OP_SIG', icon: <ShieldCheck size={14}/>, action: (s: string[]) => { s.pop(); s.pop(); s.push('TRUE'); }, ...t.part2.steps.sigCheck }
   ];
 
   // --- PART 2 STATE ---
   const [stack2, setStack2] = useState<string[]>([]);
   const [step2, setStep2] = useState(0);
   const [utxoStatus, setUtxoStatus] = useState<'pending' | 'valid' | 'invalid'>('pending');
-
-  const script2 = [
-    { 
-      op: '<Sig>', 
-      desc: '1. 入栈：解锁签名', 
-      detail: '这是发送方提供的数字签名。它证明了拥有者同意动用这笔资金。',
-      icon: <FileSignature size={14}/>, 
-      action: (s: string[]) => { s.push('Sig_Alice'); } 
-    },
-    { 
-      op: '<PubKey>', 
-      desc: '2. 入栈：用户公钥', 
-      detail: '发送方的原始公钥。用于生成哈希（验证地址）和验证签名（验证身份）。',
-      icon: <Key size={14}/>, 
-      action: (s: string[]) => { s.push('Pub_Alice'); } 
-    },
-    { 
-      op: 'OP_DUP', 
-      desc: '3. 操作：复制栈顶', 
-      detail: '复制栈顶的公钥。一次用于地址验证，一次用于签名验证。',
-      icon: <Copy size={14}/>, 
-      action: (s: string[]) => { const top = s[s.length-1]; s.push(top); } 
-    },
-    { 
-      op: 'OP_HASH160', 
-      desc: '4. 操作：计算哈希', 
-      detail: '对栈顶公钥进行哈希运算，生成比特币地址。',
-      icon: <Hash size={14}/>, 
-      action: (s: string[]) => { s.pop(); s.push('Hash(Pub)'); } 
-    },
-    { 
-      op: '<PKH>', 
-      desc: '5. 入栈：目标哈希', 
-      detail: '从锁定脚本中取出目标地址哈希。这是资金锁上的“锁孔”。',
-      icon: <Lock size={14}/>, 
-      action: (s: string[]) => { s.push('Hash(Pub)'); } 
-    }, 
-    { 
-      op: 'OP_EQUAL', 
-      desc: '6. 验证：地址匹配', 
-      detail: '对比两个哈希值。相等说明地址匹配。',
-      icon: <Fingerprint size={14}/>, 
-      action: (s: string[]) => { s.pop(); s.pop(); /* Assume equal */ } 
-    },
-    { 
-      op: 'OP_SIG', 
-      desc: '7. 验证：签名', 
-      detail: '利用公钥解密签名，验证身份。通过则返回 TRUE。',
-      icon: <ShieldCheck size={14}/>, 
-      action: (s: string[]) => { s.pop(); s.pop(); s.push('TRUE'); } 
-    }
-  ];
 
   // --- HANDLERS ---
   const handleStep1 = () => {
@@ -139,19 +164,22 @@ const BitcoinScript: React.FC = () => {
                 <div className="space-y-6">
                     <div>
                         <div className="inline-block bg-stone-800 text-stone-400 px-3 py-1 rounded-full text-xs font-bold mb-4 uppercase tracking-widest border border-stone-700">
-                            Part 1: 基础原理
+                            {t.part1.tag}
                         </div>
-                        <h2 className="text-3xl md:text-4xl font-bold mb-4">堆栈 (Stack) 思维</h2>
+                        <h2 className="text-3xl md:text-4xl font-bold mb-4">{t.part1.title}</h2>
                         <p className="text-stone-400 leading-relaxed text-sm md:text-base">
-                            比特币脚本没有循环，没有变量名。它是一种<strong>基于堆栈、后进先出 (LIFO)</strong> 的语言。
-                            就像叠盘子：你只能操作最上面的数据。
+                            {language === 'zh' ? (
+                                <>比特币脚本没有循环，没有变量名。它是一种<strong>基于堆栈、后进先出 (LIFO)</strong> 的语言。就像叠盘子：你只能操作最上面的数据。</>
+                            ) : (
+                                <>Bitcoin script has no loops or variable names. It is a <strong>stack-based, LIFO (Last In, First Out)</strong> language. Like stacking plates: you can only manipulate the data on top.</>
+                            )}
                         </p>
                     </div>
                     
                     <div className="bg-stone-800/50 p-4 md:p-6 rounded-xl border border-stone-700">
                         <div className="flex items-center gap-2 mb-4 text-xs text-stone-500 font-bold uppercase tracking-wider">
                             <Calculator size={14} className="text-orange-500" />
-                            示例脚本：2 + 3 = 5 ?
+                            {t.part1.exampleLabel}
                         </div>
                         
                         {/* Interactive Script Buttons */}
@@ -171,7 +199,7 @@ const BitcoinScript: React.FC = () => {
                             {step1 < script1.length ? (
                                 <div className="animate-fade-in w-full">
                                     <span className="text-orange-500 font-bold block mb-1 text-sm">
-                                        当前步骤: {script1[step1].op}
+                                        {t.part1.controls.current}: {script1[step1].op}
                                     </span>
                                     <span className="text-stone-300 text-xs md:text-sm">
                                         {script1[step1].detail}
@@ -179,7 +207,7 @@ const BitcoinScript: React.FC = () => {
                                 </div>
                             ) : (
                                 <div className="text-green-500 font-bold flex items-center gap-2 text-sm">
-                                    <CheckCircle size={18} /> 脚本执行完毕，验证成功。
+                                    <CheckCircle size={18} /> {t.part1.controls.success}
                                 </div>
                             )}
                         </div>
@@ -191,18 +219,18 @@ const BitcoinScript: React.FC = () => {
                         <Layers size={12} /> Stack Visualizer
                     </div>
                     
-                    {/* Stack Container - Reduced height on mobile */}
+                    {/* Stack Container */}
                     <div className="w-full h-48 md:h-72 bg-stone-900/50 rounded-lg border-2 border-dashed border-stone-700 mb-4 md:mb-6 flex flex-col-reverse items-center justify-start p-2 md:p-4 gap-2 overflow-y-auto relative">
                         {stack1.length === 0 && (
                             <div className="text-stone-600 text-xs absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-2">
-                                <span className="opacity-50">Stack Empty</span>
+                                <span className="opacity-50">{t.part1.controls.stackEmpty}</span>
                             </div>
                         )}
                         {stack1.map((val, idx) => (
                             <div key={idx} className={`w-full p-2 md:p-3 rounded-lg text-center font-mono font-bold shadow-lg transform transition-all duration-300 animate-slide-up flex items-center justify-between px-4 text-xs md:text-sm
                                 ${val === 1 && step1 === 5 ? 'bg-green-600 border border-green-500 text-white' : 'bg-stone-700 border border-stone-600 text-white'}`}>
                                 <span className="text-[10px] text-stone-400">#{idx}</span>
-                                <span>{val === 1 && step1 === 5 ? 'TRUE (1)' : val}</span>
+                                <span>{val === 1 && step1 === 5 ? t.part1.controls.trueVal : val}</span>
                                 <span className="w-4"></span>
                             </div>
                         ))}
@@ -211,10 +239,10 @@ const BitcoinScript: React.FC = () => {
                     {/* Controls */}
                     <div className="flex flex-row justify-between items-center bg-stone-900 p-2 rounded-lg gap-2">
                         <button onClick={handleReset1} className="flex-1 px-3 py-3 md:py-2 bg-stone-800 hover:bg-stone-700 text-stone-300 rounded text-xs font-bold transition-colors flex items-center justify-center gap-1">
-                            <RotateCcw size={14} /> 重置
+                            <RotateCcw size={14} /> {t.part1.controls.reset}
                         </button>
                         <button onClick={handleStep1} disabled={step1 >= script1.length} className={`flex-[2] px-3 py-3 md:py-2 rounded text-xs font-bold transition-colors flex items-center justify-center gap-2 ${step1 >= script1.length ? 'bg-green-600 text-white cursor-default' : 'bg-orange-600 hover:bg-orange-500 text-white shadow-lg shadow-orange-900/20 active:scale-95'}`}>
-                            {step1 >= script1.length ? <><CheckCircle size={14} /> 完成</> : <><MousePointerClick size={14} /> 执行指令</>}
+                            {step1 >= script1.length ? <><CheckCircle size={14} /> {t.part1.controls.complete}</> : <><MousePointerClick size={14} /> {t.part1.controls.execute}</>}
                         </button>
                     </div>
                 </div>
@@ -229,14 +257,14 @@ const BitcoinScript: React.FC = () => {
                     
                     {/* Transaction Context Visual */}
                     <div className="flex justify-between mb-4 text-[10px] text-stone-500 font-mono uppercase tracking-wider bg-stone-900/50 p-2 rounded">
-                        <span className="text-green-500">ScriptSig (解锁)</span>
+                        <span className="text-green-500">ScriptSig ({language === 'zh' ? '解锁' : 'Unlock'})</span>
                         <span className="text-stone-600">→</span>
-                        <span className="text-red-500">ScriptPubKey (锁定)</span>
+                        <span className="text-red-500">ScriptPubKey ({language === 'zh' ? '锁定' : 'Lock'})</span>
                     </div>
 
                     {/* Stack Display */}
                     <div className="w-full h-48 md:h-72 bg-stone-900/50 rounded-lg border-2 border-dashed border-stone-700 mb-4 md:mb-6 flex flex-col-reverse items-center justify-start p-2 md:p-4 gap-2 overflow-y-auto relative">
-                        {stack2.length === 0 && <div className="text-stone-600 text-xs absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">等待验证...</div>}
+                        {stack2.length === 0 && <div className="text-stone-600 text-xs absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">{t.part2.controls.waiting}</div>}
                         {stack2.map((val, idx) => (
                             <div key={idx} className={`w-full p-2 md:p-3 rounded-lg text-center font-mono font-bold shadow-md animate-fade-in-up flex items-center justify-center gap-2 transition-all text-xs md:text-sm
                                 ${val === 'TRUE' ? 'bg-green-600 border border-green-500 text-white scale-105' : 'bg-stone-700 border border-stone-600 text-white'}`}>
@@ -249,10 +277,10 @@ const BitcoinScript: React.FC = () => {
                     {/* Controls */}
                     <div className="flex flex-row justify-between items-center bg-stone-900 p-2 rounded-lg gap-2">
                         <button onClick={handleReset2} className="flex-1 px-3 py-3 md:py-2 bg-stone-800 hover:bg-stone-700 text-stone-300 rounded text-xs font-bold transition-colors flex items-center justify-center gap-1">
-                            <RotateCcw size={14} /> 重置
+                            <RotateCcw size={14} /> {t.part2.controls.reset}
                         </button>
                         <button onClick={handleStep2} disabled={step2 >= script2.length} className={`flex-[2] px-3 py-3 md:py-2 rounded text-xs font-bold transition-colors flex items-center justify-center gap-2 ${step2 >= script2.length ? 'bg-green-600 text-white cursor-default' : 'bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-900/20 active:scale-95'}`}>
-                            {step2 >= script2.length ? <><CheckCircle size={14} /> 已打包</> : <><Play size={14} /> 下一步</>}
+                            {step2 >= script2.length ? <><CheckCircle size={14} /> {t.part2.controls.packaged}</> : <><Play size={14} /> {t.part2.controls.next}</>}
                         </button>
                     </div>
                 </div>
@@ -260,21 +288,20 @@ const BitcoinScript: React.FC = () => {
                 <div className="order-1 md:order-2 space-y-6">
                     <div>
                         <div className="inline-block bg-blue-900/30 text-blue-400 px-3 py-1 rounded-full text-xs font-bold mb-4 uppercase tracking-widest border border-blue-500/30">
-                            Part 2: UTXO 转账验证
+                            {t.part2.tag}
                         </div>
-                        <h2 className="text-3xl md:text-4xl font-bold mb-4">P2PKH 交易脚本</h2>
+                        <h2 className="text-3xl md:text-4xl font-bold mb-4">{t.part2.title}</h2>
                         <p className="text-stone-400 leading-relaxed text-sm md:text-base">
-                            当你在比特币网络转账时，矿工实际上是在执行两段拼在一起的代码。
+                            {t.part2.desc}
                         </p>
                     </div>
 
-                    {/* Interactive Script Strip - Optimized Layout */}
+                    {/* Interactive Script Strip */}
                     <div className="bg-stone-800/50 p-4 md:p-6 rounded-xl border border-stone-700">
                         <div className="flex items-center gap-2 mb-4 text-xs text-stone-500">
-                            <ArrowDown size={18} className="text-blue-500 animate-bounce" /> 当前执行位置
+                            <ArrowDown size={18} className="text-blue-500 animate-bounce" /> {language === 'zh' ? '当前执行位置' : 'Current Execution'}
                         </div>
                         
-                        {/* CHANGED: Use flex-wrap to prevent horizontal scrolling/overflow on mobile */}
                         <div className="flex flex-wrap gap-2 font-mono text-xs justify-start">
                             {script2.map((s, i) => (
                                 <div key={i} className={`relative group px-2 md:px-4 py-2 md:py-3 rounded border transition-all cursor-help 
@@ -307,7 +334,7 @@ const BitcoinScript: React.FC = () => {
                                 <div className="text-green-500 font-bold flex items-center gap-2 m-auto text-sm">
                                     <CheckCircle size={20} /> 
                                     <div>
-                                        <div>交易合法，允许花费。</div>
+                                        <div>{t.part2.controls.valid}</div>
                                     </div>
                                 </div>
                             )}

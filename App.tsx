@@ -15,8 +15,9 @@ import Comparison from './components/Comparison';
 import Action from './components/Action';
 import Footer from './components/Footer';
 import HalvingCountdown from './components/HalvingCountdown';
+import { LanguageProvider } from './contexts/LanguageContext';
 
-const App: React.FC = () => {
+const AppContent: React.FC = () => {
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
@@ -44,6 +45,14 @@ const App: React.FC = () => {
       </main>
       <Footer />
     </div>
+  );
+};
+
+const App: React.FC = () => {
+  return (
+    <LanguageProvider>
+      <AppContent />
+    </LanguageProvider>
   );
 };
 

@@ -63,10 +63,10 @@ const TEAM_MEMBERS = [
 const ORGANIZATION_BACKERS = [
     { name: "sCrypt", logo: "https://github.com/user-attachments/assets/1e77e9d4-398e-46b0-851b-77d7ca7033bd", bg: "bg-black" },
     { name: "StarkWare", logo: "https://github.com/user-attachments/assets/86ff4775-6ac2-43bb-9f82-5d286c138343", bg: "bg-black" },
-    { name: "Taproot Wizards", logo: "https://github.com/user-attachments/assets/c8dca2e5-110d-4c37-8a3e-7e81504986b2", fallbackText: "🧙‍♂️ Taproot Wizards", bg: "bg-balck" },
-    { name: "Alpen Labs", logo: "https://github.com/user-attachments/assets/543dd64b-3deb-4f4a-bb6f-b1ee04d09aae", bg: "bg-black" },
+    { name: "Taproot Wizards", logo: "https://github.com/user-attachments/assets/97b86fa1-3794-46c4-8394-7e24c529d8cb", fallbackText: "🧙‍♂️ Taproot Wizards", bg: "bg-balck" },
+    { name: "Alpen Labs", logo: "https://github.com/user-attachments/assets/11b1bfa6-2b4a-4419-a371-229f7749dd6d", bg: "bg-black" },
     { name: "Blockstream", logo: "https://github.com/user-attachments/assets/127a785f-1bc5-4a11-bd96-8221e78b0bf2", bg: "bg-black" },
-    { name: "L2IV", logo: "https://pbs.twimg.com/profile_images/1666837774021230592/z7K7XQ4z_400x400.jpg", bg: "bg-black" },
+    { name: "L2IV", logo: "https://github.com/user-attachments/assets/6cc8f91b-4a4d-4191-a70d-c1d55a1525e7", bg: "bg-black" },
     { name: "Citrea", logo: "https://github.com/user-attachments/assets/0ab71783-baae-43d6-89b1-a7278693a263", bg: "bg-black" },
     { name: "Bitlayer", logo: "https://github.com/user-attachments/assets/80f15728-27e4-4c86-814a-734bb5a14c7c", fallbackText: "Bitlayer", bg: "bg-black" },
 ];

@@ -1,23 +1,86 @@
+
 import React, { useState } from 'react';
 import { Smartphone, Battery, Signal, Wifi, AppWindow, Quote, History } from 'lucide-react';
+import { useLanguage } from '../contexts/LanguageContext';
 
 const Problem: React.FC = () => {
   const [mode, setMode] = useState<'nokia' | 'iphone'>('nokia');
+  const { language } = useLanguage();
+
+  const content = {
+    zh: {
+      originTag: "追溯起源 (Origin)",
+      title: "中本聪的未竟事业",
+      desc: (
+        <>
+            OP_CAT 并非“修改”比特币，而是<strong>恢复</strong>中本聪在 2010 年因早期安全顾虑而暂时禁用的功能。<br/>
+            早在 15 年前，他就预见了一个智能的、可编程的比特币网络。
+        </>
+      ),
+      statueLabel: "比特币创造者",
+      quote1: {
+        tag: "关于扩展性 (Scalability)",
+        trans: "译：比特币已经可以比 Visa 扩展得更大，且只需现有硬件的一小部分成本。它从未真正触及扩展上限。"
+      },
+      quote2: {
+        tag: "关于可编程性 (Programmability)",
+        trans: "译：该设计支持我多年前构思的各种交易类型... 它可以被编程以处理任何类型的交易。"
+      },
+      nokiaSection: {
+        title: "我们深爱比特币，但是...",
+        desc1: "尽管有着宏大的愿景，但今天的比特币太“安静”了。它就像一台坚不可摧的诺基亚。与此同时，以太坊和 Solana 就像装满 App 的智能手机。",
+        desc2: "OP_CAT Labs 正在用现代化的架构重启中本聪封印的能力，让比特币回归其原本的形态。",
+        btnNokia: "当前状态",
+        btnIphone: "OP_CAT 激活后",
+        noteNokia: "只能转账的单功能设备。",
+        noteIphone: "拥有无限可能的智能平台。"
+      }
+    },
+    en: {
+      originTag: "Origin Story",
+      title: "Satoshi's Unfinished Business",
+      desc: (
+        <>
+            OP_CAT is not "modifying" Bitcoin, but <strong>restoring</strong> a function Satoshi temporarily disabled in 2010 due to early security concerns.<br/>
+            15 years ago, he foresaw a smart, programmable Bitcoin network.
+        </>
+      ),
+      statueLabel: "Creator of Bitcoin",
+      quote1: {
+        tag: "On Scalability",
+        trans: "Satoshi envisioned Bitcoin scaling far beyond what we see today, leveraging simple hardware."
+      },
+      quote2: {
+        tag: "On Programmability",
+        trans: "Satoshi designed Bitcoin to support diverse transaction types, not just simple payments."
+      },
+      nokiaSection: {
+        title: "We Love Bitcoin, But...",
+        desc1: "Despite the grand vision, today's Bitcoin is too 'quiet'. It's like an indestructible Nokia. meanwhile, Ethereum and Solana are like smartphones full of Apps.",
+        desc2: "OP_CAT Labs is reactivating Satoshi's sealed capabilities with modern architecture, restoring Bitcoin to its original form.",
+        btnNokia: "Current State",
+        btnIphone: "After OP_CAT",
+        noteNokia: "Single-function device for payments only.",
+        noteIphone: "Smart platform with infinite possibilities."
+      }
+    }
+  };
+
+  const t = content[language];
 
   return (
     <section id="problem" className="py-20 bg-stone-50">
         <div className="max-w-6xl mx-auto px-4">
             
-            {/* SATOSHI'S VISION SECTION - Enhanced */}
+            {/* SATOSHI'S VISION SECTION */}
             <div className="mb-32 relative">
                 <div className="text-center mb-16">
                     <div className="inline-flex items-center gap-2 text-orange-600 text-sm font-bold uppercase tracking-widest mb-4 bg-orange-100 px-4 py-1 rounded-full border border-orange-200">
-                        <History size={16} /> 追溯起源 (Origin)
+                        <History size={16} /> {t.originTag}
                     </div>
-                    <h2 className="text-4xl md:text-5xl font-black text-stone-900 mb-6">中本聪的未竟事业</h2>
+                    <h2 className="text-4xl md:text-5xl font-black text-stone-900 mb-6">{t.title}</h2>
                     <p className="text-stone-600 max-w-3xl mx-auto text-lg leading-relaxed">
-                        OP_CAT 并非“修改”比特币，而是<strong>恢复</strong>中本聪在 2010 年因早期安全顾虑而暂时禁用的功能。<br/>
-                        早在 15 年前，他就预见了一个智能的、可编程的比特币网络。
+                        {t.desc}
                     </p>
                 </div>
 
@@ -26,7 +89,6 @@ const Problem: React.FC = () => {
                     {/* Left: The Statue Visual */}
                     <div className="lg:w-1/3 flex justify-center">
                         <div className="relative w-64 h-64 md:w-80 md:h-80 rounded-full border-8 border-stone-200 shadow-2xl overflow-hidden group">
-                             {/* Statue Image provided by user */}
                              <img 
                                 src="https://github.com/user-attachments/assets/463602d4-448c-4ac3-9cbc-2e48998c4b75" 
                                 alt="Satoshi Nakamoto Statue" 
@@ -35,7 +97,7 @@ const Problem: React.FC = () => {
                             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                             <div className="absolute bottom-6 left-0 right-0 text-center text-white">
                                 <div className="font-bold text-xl tracking-widest uppercase">Satoshi Nakamoto</div>
-                                <div className="text-xs opacity-80 font-mono">Creator of Bitcoin</div>
+                                <div className="text-xs opacity-80 font-mono">{t.statueLabel}</div>
                             </div>
                         </div>
                     </div>
@@ -47,7 +109,7 @@ const Problem: React.FC = () => {
                             <Quote className="absolute top-4 right-4 text-orange-100 w-16 h-16 transform rotate-180" />
                             <div className="relative z-10">
                                 <div className="flex items-center gap-3 mb-4">
-                                    <span className="bg-orange-100 text-orange-700 text-xs font-bold px-2 py-1 rounded uppercase">关于扩展性 (Scalability)</span>
+                                    <span className="bg-orange-100 text-orange-700 text-xs font-bold px-2 py-1 rounded uppercase">{t.quote1.tag}</span>
                                     <span className="text-stone-400 text-xs">Email to Mike Hearn, 2009</span>
                                 </div>
                                 <p className="text-stone-800 font-serif italic text-xl md:text-2xl leading-relaxed mb-4">
@@ -55,7 +117,7 @@ const Problem: React.FC = () => {
                                 </p>
                                 <div className="bg-orange-50 border-l-4 border-orange-300 p-4 rounded-r-lg">
                                     <p className="text-stone-800 text-base font-bold leading-relaxed">
-                                        译：比特币已经可以比 Visa 扩展得更大，且只需现有硬件的一小部分成本。它从未真正触及扩展上限。
+                                        {t.quote1.trans}
                                     </p>
                                 </div>
                             </div>
@@ -67,14 +129,14 @@ const Problem: React.FC = () => {
                             <div className="relative z-10 text-right">
                                 <div className="flex items-center gap-3 mb-4 justify-end">
                                     <span className="text-stone-400 text-xs">BitcoinTalk, 2010</span>
-                                    <span className="bg-blue-100 text-blue-700 text-xs font-bold px-2 py-1 rounded uppercase">关于可编程性 (Programmability)</span>
+                                    <span className="bg-blue-100 text-blue-700 text-xs font-bold px-2 py-1 rounded uppercase">{t.quote2.tag}</span>
                                 </div>
                                 <p className="text-stone-800 font-serif italic text-xl md:text-2xl leading-relaxed mb-4">
                                     "The design supports a tremendous variety of possible transaction types... It can be programmed to handle any transaction type."
                                 </p>
                                 <div className="bg-blue-50 border-r-4 border-blue-300 p-4 rounded-l-lg text-right">
                                     <p className="text-stone-800 text-base font-bold leading-relaxed">
-                                        译：该设计支持我多年前构思的各种交易类型... 它可以被编程以处理任何类型的交易。
+                                        {t.quote2.trans}
                                     </p>
                                 </div>
                             </div>
@@ -84,15 +146,19 @@ const Problem: React.FC = () => {
                 </div>
             </div>
 
-            {/* EXISTING NOKIA vs IPHONE SECTION */}
+            {/* NOKIA vs IPHONE SECTION */}
             <div className="grid md:grid-cols-2 gap-12 items-center border-t border-stone-200 pt-20">
                 <div>
-                    <h2 className="text-3xl font-bold mb-6 border-l-4 border-orange-500 pl-4 text-stone-900">我们深爱比特币，但是...</h2>
+                    <h2 className="text-3xl font-bold mb-6 border-l-4 border-orange-500 pl-4 text-stone-900">{t.nokiaSection.title}</h2>
                     <p className="text-lg text-stone-600 mb-6">
-                        尽管有着宏大的愿景，但今天的比特币太“安静”了。它就像一台坚不可摧的<strong>诺基亚</strong>。与此同时，以太坊和 Solana 就像装满 App 的智能手机。
+                        {language === 'zh' ? (
+                            <>尽管有着宏大的愿景，但今天的比特币太“安静”了。它就像一台坚不可摧的<strong>诺基亚</strong>。与此同时，以太坊和 Solana 就像装满 App 的智能手机。</>
+                        ) : (
+                            <>Despite the grand vision, today's Bitcoin is too "quiet". It is like an indestructible <strong>Nokia</strong>. Meanwhile, Ethereum and Solana are like smartphones full of Apps.</>
+                        )}
                     </p>
                     <p className="text-stone-600 mb-8">
-                        OP_CAT Labs 正在用现代化的架构重启中本聪封印的能力，让比特币回归其原本的形态。
+                        {t.nokiaSection.desc2}
                     </p>
                     
                     {/* Toggle Buttons */}
@@ -101,17 +167,17 @@ const Problem: React.FC = () => {
                             onClick={() => setMode('nokia')}
                             className={`px-6 py-2 rounded-lg text-sm font-bold transition-all flex items-center gap-2 ${mode === 'nokia' ? 'bg-white text-stone-800 shadow-sm border border-stone-200' : 'text-stone-500 hover:text-stone-800'}`}
                         >
-                            <div className="w-2 h-2 rounded-full bg-stone-500"></div> 当前状态
+                            <div className="w-2 h-2 rounded-full bg-stone-500"></div> {t.nokiaSection.btnNokia}
                         </button>
                         <button 
                             onClick={() => setMode('iphone')}
                             className={`px-6 py-2 rounded-lg text-sm font-bold transition-all flex items-center gap-2 ${mode === 'iphone' ? 'bg-white text-orange-600 shadow-sm border border-orange-200' : 'text-stone-500 hover:text-stone-800'}`}
                         >
-                            <div className="w-2 h-2 rounded-full bg-orange-500 animate-pulse"></div> OP_CAT 激活后
+                            <div className="w-2 h-2 rounded-full bg-orange-500 animate-pulse"></div> {t.nokiaSection.btnIphone}
                         </button>
                     </div>
                     <p className="text-xs text-stone-400 mt-2 italic">
-                        {mode === 'nokia' ? "只能转账的单功能设备。" : "拥有无限可能的智能平台。"}
+                        {mode === 'nokia' ? t.nokiaSection.noteNokia : t.nokiaSection.noteIphone}
                     </p>
                 </div>
                 
