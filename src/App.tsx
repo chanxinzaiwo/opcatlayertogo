@@ -1,35 +1,50 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
 
-function App() {
-  const [count, setCount] = useState(0)
+import React from 'react';
+import Navigation from './components/Navigation';
+import Hero from './components/Hero';
+import Problem from './components/Problem';
+import Concept from './components/Concept';
+import Architecture from './components/Architecture';
+import BitcoinScript from './components/BitcoinScript';
+import Developer from './components/Developer';
+import UseCases from './components/UseCases';
+import Vision from './components/Vision';
+import WhyItWins from './components/WhyItWins';
+import Consensus from './components/Consensus';
+import Comparison from './components/Comparison';
+import Action from './components/Action';
+import Footer from './components/Footer';
+import HalvingCountdown from './components/HalvingCountdown';
+
+const App: React.FC = () => {
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <div className="font-sans antialiased text-stone-900 selection:bg-orange-200 selection:text-orange-900">
+      <Navigation scrollToSection={scrollToSection} />
+      <main>
+        <Hero scrollToSection={scrollToSection} />
+        <Problem />
+        <BitcoinScript />
+        <Concept />
+        <Architecture />
+        <Developer />
+        <UseCases />
+        <WhyItWins />
+        <Vision />
+        <Comparison />
+        <Consensus />
+        <HalvingCountdown />
+        <Action />
+      </main>
+      <Footer />
+    </div>
+  );
+};
 
-export default App
+export default App;
